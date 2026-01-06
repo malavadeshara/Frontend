@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter, RouterOutlet } from '@angular/router';
+import { By } from '@angular/platform-browser';
+
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [
+        provideRouter([]) // no routes needed just to render router-outlet
+      ]
     }).compileComponents();
   });
 
@@ -14,10 +20,14 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', () => {
+  it('should render router-outlet', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Frontend');
+
+    const routerOutlet = fixture.debugElement.query(
+      By.directive(RouterOutlet)
+    );
+
+    expect(routerOutlet).toBeTruthy();
   });
 });

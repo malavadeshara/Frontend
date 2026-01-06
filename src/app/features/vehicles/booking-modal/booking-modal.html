@@ -1,0 +1,63 @@
+<div class="modal fade" id="bookingModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Book Test Ride</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- DATE -->
+        <div class="mb-3">
+          <label class="form-label">Select Date</label>
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="selectedDate"
+            (change)="onDateChange()"
+          />
+          <small class="text-muted">
+            Sundays and past dates are not allowed
+          </small>
+        </div>
+
+        <!-- SLOTS -->
+        <div *ngIf="loadingSlots || bookingInProgress" class="text-center my-4">
+          <div class="spinner-border text-primary"></div>
+        </div>
+
+        <div *ngIf="slots.length && !bookingInProgress">
+          <label class="form-label fw-bold">Available Slots</label>
+          <div class="d-flex flex-wrap gap-2">
+            <button
+              *ngFor="let slot of slots"
+              class="btn"
+              [class.btn-outline-primary]="slot.isAvailable"
+              [class.btn-secondary]="!slot.isAvailable"
+              [disabled]="!slot.isAvailable"
+              [class.active]="selectedSlot === slot.slotIndex"
+              (click)="selectSlot(slot.slotIndex)"
+            >
+              {{ slotTimings[slot.slotIndex] }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button
+          class="btn btn-primary"
+          [disabled]="selectedSlot === undefined || bookingInProgress"
+          (click)="confirmBooking()"
+        >
+          Confirm Booking
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

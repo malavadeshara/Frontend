@@ -1,0 +1,52 @@
+<app-loader [show]="isLoading"></app-loader>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow login-card">
+        <div class="card-body p-4">
+            <h3 class="text-center text-primary mb-4">Login</h3>
+
+            <form [formGroup]="loginForm" (ngSubmit)="submit()">
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" formControlName="email">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" formControlName="password">
+                </div>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" formControlName="rememberMe">
+                    <label class="form-check-label">
+                        Remember Me
+                    </label>
+                </div>
+
+                <button class="btn btn-primary w-100" type="submit">
+                    Login
+                </button>
+
+                <div class="text-center mt-3">
+                    <span>Don't have an account?</span>
+                    <a routerLink="/register" class="text-primary fw-semibold ms-1">
+                        Register
+                    </a>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<!-- Toast -->
+<div *ngIf="showToast" class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast show" [ngClass]="toastClass">
+        <div class="toast-body">
+            {{ toastMessage }}
+        </div>
+    </div>
+</div>

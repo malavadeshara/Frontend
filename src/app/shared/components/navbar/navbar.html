@@ -1,0 +1,54 @@
+<nav class="navbar navbar-dark bg-primary px-3">
+  <a class="navbar-brand fw-bold" routerLink="/">VehicleHub</a>
+
+  <!-- Hamburger toggle (mobile) -->
+  <button class="btn btn-outline-light d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" aria-controls="navbarOffcanvas">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Desktop links -->
+  <ul class="navbar-nav d-none d-lg-flex flex-row ms-auto align-items-center">
+    <li *ngIf="role === 'Customer'" class="nav-item me-3">
+      <a class="nav-link text-light" routerLink="/vehicles" routerLinkActive="active-link">Vehicles</a>
+    </li>
+    <li *ngIf="role === 'Admin'" class="nav-item me-3">
+      <a class="nav-link text-light" routerLink="/admin/dashboard" routerLinkActive="active-link">Vehicles</a>
+    </li>
+    <li *ngIf="role === 'Customer'" class="nav-item me-3">
+      <a class="nav-link text-light" routerLink="/my-bookings" routerLinkActive="active-link">My Bookings</a>
+    </li>
+    <li *ngIf="role === 'Admin'" class="nav-item me-3">
+      <a class="nav-link text-light" routerLink="/admin/view-all-bookings" routerLinkActive="active-link">Bookings</a>
+    </li>
+    <li class="nav-item">
+      <button class="btn btn-outline-light" (click)="logout()">Logout</button>
+    </li>
+  </ul>
+</nav>
+
+<!-- Offcanvas for mobile -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Menu</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="nav flex-column gap-2">
+      <li *ngIf="role === 'Customer'" class="nav-item">
+        <button class="btn btn-link text-start nav-link" (click)="navigate('/vehicles')">Vehicles</button>
+      </li>
+      <li *ngIf="role === 'Admin'" class="nav-item">
+        <button class="btn btn-link text-start nav-link" (click)="navigate('/admin/dashboard')">Vehicles</button>
+      </li>
+      <li *ngIf="role === 'Customer'" class="nav-item">
+        <button class="btn btn-link text-start nav-link" (click)="navigate('/my-bookings')">My Bookings</button>
+      </li>
+      <li *ngIf="role === 'Admin'" class="nav-item">
+        <button class="btn btn-link text-start nav-link" (click)="navigate('/admin/view-all-bookings')">Bookings</button>
+      </li>
+      <li class="nav-item mt-3">
+        <button class="btn btn-danger w-100" (click)="logout()">Logout</button>
+      </li>
+    </ul>
+  </div>
+</div>

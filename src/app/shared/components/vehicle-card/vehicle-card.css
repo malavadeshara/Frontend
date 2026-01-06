@@ -1,0 +1,22 @@
+.vehicle-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.vehicle-card:hover {
+  transform: translateY(-5px);
+}
+
+.vehicle-img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.price {
+  font-weight: bold;
+  color: #0056b3;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #212529;
+}

@@ -1,0 +1,16 @@
+.carousel img {
+  max-height: 420px;
+  object-fit: cover;
+}
+
+h2 {
+  color: #212529;
+}
+
+hr {
+  margin: 3rem 0;
+}
+
+.container {
+  max-width: 1140px;
+}

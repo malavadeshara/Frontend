@@ -1,0 +1,102 @@
+<div class="container py-5" *ngIf="!loading; else loader">
+  <button class="btn btn-outline-secondary mb-4" (click)="goBack()">
+    ← Back to Listings
+  </button>
+
+  <div class="row g-4">
+    <!-- IMAGE CAROUSEL -->
+    <div class="col-lg-6">
+      <div id="vehicleDetailCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button *ngFor="let img of vehicle.images; let i = index" type="button"
+            data-bs-target="#vehicleDetailCarousel" [attr.data-bs-slide-to]="i" [class.active]="i === 0">
+          </button>
+        </div>
+
+        <div class="carousel-inner">
+          <div *ngFor="let img of vehicle.images; let i = index" class="carousel-item" [class.active]="i === 0">
+            <img [src]="img" class="d-block w-100 rounded" />
+          </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#vehicleDetailCarousel"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#vehicleDetailCarousel"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="col-lg-6">
+      <h2 class="fw-bold">
+        {{ vehicle.name }} {{ vehicle.model }} ({{ vehicle.year }})
+      </h2>
+
+      <span class="badge" [ngClass]="vehicle.inStock ? 'bg-success' : 'bg-danger'">
+        {{ vehicle.inStock ? 'In Stock' : 'Sold Out' }}
+      </span>
+
+      <h3 class="text-primary mt-3">
+        ₹{{ vehicle.price | number }}
+      </h3>
+
+      <p class="text-muted mt-2">
+        {{ vehicle.shortDescription }}
+      </p>
+
+      <button class="btn btn-primary mt-3" [disabled]="!vehicle.inStock" data-bs-toggle="modal"
+        data-bs-target="#bookingModal">
+        Book Vehicle
+      </button>
+
+      <app-booking-modal *ngIf="vehicleId" [vehicleId]="vehicleId">
+      </app-booking-modal>
+
+    </div>
+  </div>
+
+  <hr class="my-5" />
+
+  <h4>Specifications</h4>
+  <div class="row">
+    <div class="col-md-6" *ngFor="let spec of vehicle.specifications | keyvalue">
+      <strong>{{ spec.key }}:</strong> {{ spec.value }}
+    </div>
+  </div>
+
+  <hr class="my-5" />
+
+  <h4>Dimensions</h4>
+  <div class="row">
+    <div class="col-md-6" *ngFor="let dim of vehicle.dimensions | keyvalue">
+      <strong>{{ dim.key }}:</strong> {{ dim.value }}
+    </div>
+  </div>
+
+  <hr class="my-5" />
+
+  <h4>Key Features</h4>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngFor="let feature of vehicle.features">
+      {{ feature }}
+    </li>
+  </ul>
+
+  <hr class="my-5" />
+
+  <h4>Description</h4>
+  <p class="text-muted">
+    {{ vehicle.detailedDescription }}
+  </p>
+</div>
+
+<ng-template #loader>
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="spinner-border text-primary"></div>
+  </div>
+</ng-template>

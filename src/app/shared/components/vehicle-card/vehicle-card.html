@@ -1,0 +1,55 @@
+<!-- <app-loader [show]="isLoading"></app-loader> -->
+
+<div class="card vehicle-card h-100 shadow-sm">
+
+    <!-- Vehicle Images Carousel -->
+    <div class="carousel slide" data-bs-ride="carousel" [id]="'carousel-' + vehicle.id">
+        <div class="carousel-inner">
+            <div class="carousel-item" *ngFor="let img of vehicle.images; let i = index" [class.active]="i === 0">
+                <img [src]="img" class="d-block w-100 vehicle-img" alt="Vehicle image" />
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-slide="prev"
+            [attr.data-bs-target]="'#carousel-' + vehicle.id">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-slide="next"
+            [attr.data-bs-target]="'#carousel-' + vehicle.id">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <!-- Card Body -->
+    <div class="card-body d-flex flex-column">
+        <h5 class="fw-bold">{{ vehicle.name }} {{ vehicle.year }}</h5>
+
+        <span class="badge mb-2" [ngClass]="vehicle.inStock ? 'bg-success' : 'bg-danger'">
+            {{ vehicle.inStock ? 'In Stock' : 'Sold Out' }}
+        </span>
+
+        <p class="text-muted small">{{ vehicle.ageInShowroom }}</p>
+        <p class="price">₹{{ vehicle.price | number }}</p>
+        <p class="description">{{ vehicle.shortDescription }}</p>
+
+        <div class="mt-auto d-flex gap-2">
+            <button *ngIf="role === 'Customer'" class="btn btn-primary btn-sm w-100" (click)="viewDetails()">
+                View Details
+            </button>
+
+            <ng-container *ngIf="role === 'Admin'">
+                <button class="btn btn-secondary btn-sm w-50" data-bs-toggle="modal"
+                    [attr.data-bs-target]="'#updateVehicleModal-' + vehicle.id">
+                    Edit
+                </button>
+
+                <button class="btn btn-danger btn-sm w-50" (click)="onDelete()">Delete</button>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- Update Vehicle Modal -->
+<app-update-vehicle-modal [vehicleId]="vehicle.id" (updated)="updated.emit()" [hidden]="role === 'Customer'">
+</app-update-vehicle-modal>

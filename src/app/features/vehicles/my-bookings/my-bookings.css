@@ -1,0 +1,76 @@
+/* Base */
+.customer-page {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.booking-card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Desktop / Tablet layout */
+.booking-row {
+  display: flex;
+  align-items: stretch;
+}
+
+.booking-image-wrapper {
+  width: 220px;
+  height: 140px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-right: 1px solid #dee2e6;
+}
+
+.booking-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.booking-content {
+  display: flex;
+  flex: 1;
+}
+
+.booking-info {
+  flex: 1;
+}
+
+.booking-status {
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #dee2e6;
+}
+
+/* ---------------- MOBILE FIX ---------------- */
+@media (max-width: 767px) {
+
+  .booking-row {
+    flex-direction: column;
+  }
+
+  .booking-image-wrapper {
+    width: 100%;
+    height: 180px;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .booking-content {
+    flex-direction: column;
+  }
+
+  .booking-status {
+    border-left: none;
+    border-top: 1px solid #dee2e6;
+    padding: 12px 0;
+  }
+
+  .booking-status span {
+    width: fit-content;
+  }
+}

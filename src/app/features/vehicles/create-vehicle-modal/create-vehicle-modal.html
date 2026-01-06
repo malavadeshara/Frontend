@@ -1,0 +1,193 @@
+<div class="modal fade" id="addVehicleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+
+      <!-- HEADER -->
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Vehicle</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+        <form [formGroup]="vehicleForm">
+
+          <!-- BASIC INFO -->
+          <div class="row g-3 mb-4">
+
+            <div class="col-md-6">
+              <label>Name *</label>
+              <input class="form-control" formControlName="name" required>
+              <div class="text-danger small"
+                   *ngIf="vehicleForm.get('name')?.touched && vehicleForm.get('name')?.invalid">
+                Name is required
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label>Model *</label>
+              <input class="form-control" formControlName="model" required>
+              <div class="text-danger small"
+                   *ngIf="vehicleForm.get('model')?.touched && vehicleForm.get('model')?.invalid">
+                Model is required
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label>Year *</label>
+              <input type="number" class="form-control" formControlName="year" required>
+              <div class="text-danger small"
+                   *ngIf="vehicleForm.get('year')?.touched && vehicleForm.get('year')?.invalid">
+                Year is required
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label>Price *</label>
+              <input type="number" class="form-control" formControlName="price" required>
+              <div class="text-danger small"
+                   *ngIf="vehicleForm.get('price')?.touched && vehicleForm.get('price')?.invalid">
+                Price is required
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label>Currency *</label>
+              <input class="form-control" formControlName="currency" required>
+            </div>
+
+            <div class="col-md-3 d-flex align-items-end">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" formControlName="inStock" required>
+                <label class="form-check-label">In Stock *</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- DESCRIPTIONS -->
+          <div class="mb-4">
+            <label>Short Description *</label>
+            <textarea class="form-control" rows="2" formControlName="shortDescription" required></textarea>
+            <div class="text-danger small"
+                 *ngIf="vehicleForm.get('shortDescription')?.touched && vehicleForm.get('shortDescription')?.invalid">
+              Required
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label>Detailed Description *</label>
+            <textarea class="form-control" rows="3" formControlName="detailedDescription" required></textarea>
+            <div class="text-danger small"
+                 *ngIf="vehicleForm.get('detailedDescription')?.touched && vehicleForm.get('detailedDescription')?.invalid">
+              Required
+            </div>
+          </div>
+
+          <!-- IMAGES -->
+          <div class="mb-4">
+            <label class="form-label">Vehicle Images *</label>
+            <input type="file"
+                   class="form-control"
+                   multiple
+                   accept="image/*"
+                   (change)="onImagesSelected($event)"
+                   required>
+
+            <div class="text-danger small mt-1"
+                 *ngIf="selectedImages.length === 0">
+              At least one image is required
+            </div>
+
+            <div class="row mt-3 g-3">
+              <div class="col-md-3 position-relative"
+                   *ngFor="let img of imagePreviews; let i = index">
+                <img [src]="img"
+                     class="img-fluid rounded border"
+                     style="height:140px;object-fit:cover;">
+                <button type="button"
+                        class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                        (click)="removeImage(i)">
+                  ×
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- FEATURES -->
+          <div class="mb-4">
+            <label class="form-label">Features *</label>
+
+            <div class="input-group mb-2">
+              <input class="form-control"
+                     [(ngModel)]="newFeature"
+                     [ngModelOptions]="{ standalone: true }"
+                     placeholder="Enter feature">
+              <button type="button"
+                      class="btn btn-outline-primary"
+                      (click)="addFeature()">
+                Add
+              </button>
+            </div>
+
+            <div class="text-danger small"
+                 *ngIf="features.length === 0">
+              At least one feature is required
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              <span class="badge bg-primary d-flex align-items-center"
+                    *ngFor="let f of features; let i = index">
+                {{ f }}
+                <button type="button"
+                        class="btn-close btn-close-white ms-2"
+                        (click)="removeFeature(i)">
+                </button>
+              </span>
+            </div>
+          </div>
+
+          <!-- SPECIFICATIONS -->
+          <div class="row g-3">
+            <div class="col-md-6">
+              <h6>Specifications *</h6>
+              <input class="form-control mb-2" placeholder="Engine" formControlName="engine" required>
+              <input class="form-control mb-2" placeholder="Power" formControlName="power" required>
+              <input class="form-control mb-2" placeholder="Torque" formControlName="torque" required>
+              <input class="form-control mb-2" placeholder="Fuel Type" formControlName="fuelType" required>
+              <input class="form-control mb-2" placeholder="Transmission" formControlName="transmission" required>
+              <input class="form-control mb-2" placeholder="Mileage" formControlName="mileage" required>
+              <input class="form-control mb-2" placeholder="Top Speed" formControlName="topSpeed" required>
+              <input class="form-control mb-2" placeholder="Acceleration" formControlName="acceleration" required>
+              <input class="form-control mb-2" placeholder="Seating" formControlName="seating" required>
+              <input class="form-control mb-2" placeholder="Body Type" formControlName="bodyType" required>
+              <input class="form-control mb-2" placeholder="Drivetrain" formControlName="drivetrain" required>
+            </div>
+
+            <div class="col-md-6">
+              <h6>Dimensions *</h6>
+              <input class="form-control mb-2" placeholder="Length" formControlName="length" required>
+              <input class="form-control mb-2" placeholder="Width" formControlName="width" required>
+              <input class="form-control mb-2" placeholder="Height" formControlName="height" required>
+              <input class="form-control mb-2" placeholder="Wheelbase" formControlName="wheelbase" required>
+              <input class="form-control mb-2" placeholder="Boot Space" formControlName="bootSpace" required>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary"
+                [disabled]="vehicleForm.invalid || features.length === 0 || selectedImages.length === 0"
+                (click)="submitVehicle()">
+          Save
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<app-loader [show]="showLoader" class="upper"></app-loader>
