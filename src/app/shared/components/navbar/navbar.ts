@@ -31,7 +31,7 @@ export class NavbarComponent {
   // }
 
   logout(): void {
-    this.http.post('https://localhost:7251/api/auth/logout', {}).subscribe({
+    this.http.post('https://vehicle-inventory-api.onrender.com/api/auth/logout', {}).subscribe({
       next: () => this.finishLogout(),
       error: () => this.finishLogout()
     });

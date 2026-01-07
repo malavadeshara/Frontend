@@ -9,8 +9,8 @@ import { LoginRequest, LoginResponse } from '../../features/auth/login/login.mod
 })
 export class AuthService {
 
-    private readonly baseUrl = 'https://localhost:7251/api/auth'; // adjust if needed
-    private readonly baseUrlUser = 'https://localhost:7251/api/users'; // adjust if needed
+    private readonly baseUrl = 'https://vehicle-inventory-api.onrender.com/api/auth'; // adjust if needed
+    private readonly baseUrlUser = 'https://vehicle-inventory-api.onrender.com/api/users'; // adjust if needed
 
     // private readonly baseUrl = 'http://localhost/api/api/auth';
     // private readonly baseUrlUser = 'http://localhost/api/api/users'

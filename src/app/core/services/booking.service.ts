@@ -13,11 +13,11 @@ export class BookingService {
   constructor(private http: HttpClient) { }
 
   getMyBookings(): Observable<Booking[]> {
-    return this.http.get<Booking[]>('https://localhost:7251/api/my');
+    return this.http.get<Booking[]>('https://vehicle-inventory-api.onrender.com/api/my');
   }
 
   getVehicleById(id: number): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`https://localhost:7251/api/vehicles/${id}`);
+    return this.http.get<Vehicle>(`https://vehicle-inventory-api.onrender.com/api/vehicles/${id}`);
   }
 
   getBookingsWithVehicles(): Observable<BookingWithVehicle[]> {
@@ -58,14 +58,14 @@ export class BookingService {
 
 
   getAllBookings() {
-    return this.http.get<any[]>('https://localhost:7251/api/admin/get-all-bookings');
+    return this.http.get<any[]>('https://vehicle-inventory-api.onrender.com/api/admin/get-all-bookings');
   }
 
   confirm(id: string) {
-    return this.http.post(`https://localhost:7251/api/${id}/confirm`, {});
+    return this.http.post(`https://vehicle-inventory-api.onrender.com/api/${id}/confirm`, {});
   }
 
   reject(id: string) {
-    return this.http.post(`https://localhost:7251/api/${id}/reject`, {});
+    return this.http.post(`https://vehicle-inventory-api.onrender.com/api/${id}/reject`, {});
   }
 }

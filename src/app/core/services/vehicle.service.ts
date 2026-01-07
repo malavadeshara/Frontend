@@ -9,7 +9,7 @@ import { VehicleDetail } from '../../features/vehicles/vehicle-detail/vehicle-de
 })
 export class VehicleService {
 
-  private readonly baseUrl = 'https://localhost:7251/api/vehicles';
+  private readonly baseUrl = 'https://vehicle-inventory-api.onrender.com/api/vehicles';
   // private readonly baseUrl = 'http://localhost/api/api/vehicles';
 
   constructor(private http: HttpClient) { }
@@ -67,16 +67,16 @@ export class VehicleService {
   }
 
   getSlots(vehicleId: number, date: string) {
-    console.log("inside getSlots");
-    console.log(`https://localhost:7251/api/vehicles/${vehicleId}/slots?date=${date}`);
+    // console.log("inside getSlots");
+    // console.log(`https://localhost:7251/api/vehicles/${vehicleId}/slots?date=${date}`);
 
-    return this.http.get<any[]>(`https://localhost:7251/api/vehicles/${vehicleId}/slots`, { params: { date } });
+    return this.http.get<any[]>(`https://vehicle-inventory-api.onrender.com/vehicles/${vehicleId}/slots`, { params: { date } });
   }
 
   // Add createBooking method
 createBooking(payload: { vehicleId: number, bookingDate: string, slotIndex: number }) {
   return this.http.post<any>(
-    `https://localhost:7251/api`, // your controller endpoint
+    `https://vehicle-inventory-api.onrender.com/api`, // your controller endpoint
     payload
   );
 }
