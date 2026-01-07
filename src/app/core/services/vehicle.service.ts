@@ -70,7 +70,7 @@ export class VehicleService {
     // console.log("inside getSlots");
     // console.log(`https://localhost:7251/api/vehicles/${vehicleId}/slots?date=${date}`);
 
-    return this.http.get<any[]>(`https://vehicle-inventory-api.onrender.com/vehicles/${vehicleId}/slots`, { params: { date } });
+    return this.http.get<any[]>(`https://vehicle-inventory-api.onrender.com/api/vehicles/${vehicleId}/slots`, { params: { date } });
   }
 
   // Add createBooking method
