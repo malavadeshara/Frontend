@@ -15,6 +15,7 @@
           "options": {
             "outputPath": "dist/frontend",
             "browser": "src/main.ts",
+            "serviceWorker": false,
             "polyfills": [
               "zone.js"
             ],

@@ -1,81 +1,100 @@
 <div class="container-fluid py-4 admin-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Booking Management</h2>
-
-        <!-- <a routerLink="" class="btn btn-outline-secondary">
-            ← Back to Dashboard
-        </a> -->
-    </div>
-
-
-    <!-- Tabs -->
-    <ul class="nav nav-tabs mb-4">
-        <li class="nav-item" *ngFor="let s of [1,2,3]">
-            <button class="nav-link" [class.active]="activeTab === s" (click)="activeTab = s">
-                {{ getStatusLabel(s) }}
-                <span class="badge bg-secondary ms-2">
-                    {{ getBookingsByStatus(s).length }}
-                </span>
-            </button>
-        </li>
-    </ul>
-
-    <!-- Loader -->
-    <div *ngIf="loading" class="text-center py-5">
-        <div class="spinner-border text-primary"></div>
-    </div>
-
-    <!-- Booking List -->
-    <div *ngFor="let item of getBookingsByStatus(activeTab)"
-     class="card mb-3 shadow-sm">
-
-  <div class="card-body d-flex justify-content-between align-items-center">
-
-    <div>
-      <div><strong>Vehicle:</strong> {{ item.vehicle.name }} ({{ item.vehicle.model }})</div>
-      <!-- <div><strong>Year:</strong> {{ item.vehicle.year }}</div> -->
-      <div><strong>Date:</strong> {{ item.booking.bookingDate }}</div>
-      <div><strong>Slot:</strong> {{ getSlotTime(item.booking.slotIndex) }}</div>
-      <div><strong>Price:</strong> {{ item.vehicle.price }} {{ item.vehicle.currency }}</div>
-    </div>
-
-    <!-- Actions -->
-    <div *ngIf="item.booking.status === 1" class="d-flex gap-2">
-      <button
-        class="btn btn-success"
-        [disabled]="actionLoadingId === item.booking.id"
-        (click)="confirmBooking(item.booking.id)">
-        Accept
-      </button>
-
-      <button
-        class="btn btn-danger"
-        [disabled]="actionLoadingId === item.booking.id"
-        (click)="rejectBooking(item.booking.id)">
-        Reject
-      </button>
-    </div>
-
-    <span *ngIf="item.booking.status !== 1"
-          class="badge bg-secondary fs-6">
-      {{ getStatusLabel(item.booking.status) }}
-    </span>
-
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Booking Management</h2>
   </div>
-</div>
 
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" *ngFor="let s of [1, 2, 3]">
+      <button class="nav-link" [class.active]="activeTab === s" (click)="activeTab = s">
 
+        {{ getStatusLabel(s) }}
+
+        <span class="badge ms-2" [ngClass]="getStatusBadgeClass(s)">
+          {{ getBookingsByStatus(s).length }}
+        </span>
+      </button>
+    </li>
+  </ul>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <!-- Booking List -->
+  <div *ngFor="let item of getBookingsByStatus(activeTab)" class="card mb-3 shadow-sm">
+
+    <div class="card-body row align-items-center">
+
+      <!-- Vehicle Images -->
+      <div class="col-md-3 mb-3 mb-md-0">
+        <div *ngIf="item.vehicle.images.length > 0" id="carousel-{{ item.booking.id }}" class="carousel slide"
+          data-bs-ride="carousel">
+
+          <div class="carousel-inner">
+            <div class="carousel-item" *ngFor="let img of item.vehicle.images; let i = index" [class.active]="i === 0">
+
+              <img [src]="img" class="d-block w-100 rounded" alt="Vehicle image"
+                style="height: 160px; object-fit: cover;">
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel-' + item.booking.id"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+
+          <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel-' + item.booking.id"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Booking / Vehicle Info -->
+      <div class="col-md-6">
+        <div><strong>Vehicle:</strong> {{ item.vehicle.name }} ({{ item.vehicle.model }})</div>
+        <div><strong>Date:</strong> {{ item.booking.bookingDate }}</div>
+        <div><strong>Slot:</strong> {{ getSlotTime(item.booking.slotIndex) }}</div>
+        <div><strong>Price:</strong> {{ item.vehicle.price }} {{ item.vehicle.currency }}</div>
+      </div>
+
+      <!-- Actions / Status -->
+      <div class="col-md-3 text-end">
+
+        <div *ngIf="item.booking.status === 1" class="d-flex gap-2 justify-content-end">
+          <button class="btn btn-success" [disabled]="actionLoadingId === item.booking.id"
+            (click)="confirmBooking(item.booking.id)">
+            Accept
+          </button>
+
+          <button class="btn btn-danger" [disabled]="actionLoadingId === item.booking.id"
+            (click)="rejectBooking(item.booking.id)">
+            Reject
+          </button>
+        </div>
+
+        <span *ngIf="item.booking.status !== 1" class="badge fs-6" [ngClass]="getStatusBadgeClass(item.booking.status)">
+          {{ getStatusLabel(item.booking.status) }}
+        </span>
+
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <!-- Bootstrap Toast -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="adminToast" class="toast align-items-center text-white bg-{{ toastType }} border-0" role="alert">
-        <div class="d-flex">
-            <div class="toast-body">
-                {{ toastMessage }}
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
+  <div id="adminToast" class="toast align-items-center text-white bg-{{ toastType }} border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ toastMessage }}
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast">
+      </button>
     </div>
+  </div>
 </div>

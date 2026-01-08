@@ -12,15 +12,11 @@ import { CommonModule } from '@angular/common';
 })
 export class GetAllBookings implements OnInit {
 
-
-
-  // bookings: AdminBooking[] = [];
   bookings: AdminBookingWithVehicle[] = [];
   loading = false;
   actionLoadingId: string | null = null;
   activeTab = 1; // Pending
 
-  // Toast state
   toastMessage = '';
   toastType: 'success' | 'danger' = 'success';
 
@@ -42,26 +38,13 @@ export class GetAllBookings implements OnInit {
     this.loadBookings();
   }
 
-  // loadBookings(): void {
-  //   this.loading = true;
-  //   this.bookingService.getAllBookings().subscribe({
-  //     next: (data) => {
-  //       this.bookings = data;
-  //       this.loading = false;
-  //     },
-  //     error: () => {
-  //       this.showToast('Failed to load bookings', 'danger');
-  //       this.loading = false;
-  //     }
-  //   });
-  // }
-
   loadBookings(): void {
     this.loading = true;
 
     this.bookingService.getAllBookingsWithVehicles().subscribe({
       next: (data) => {
         this.bookings = data;
+        // console.log(data);
         this.loading = false;
       },
       error: () => {
@@ -71,15 +54,9 @@ export class GetAllBookings implements OnInit {
     });
   }
 
-
-  // getBookingsByStatus(status: number): AdminBooking[] {
-  //   return this.bookings.filter(b => b.status === status);
-  // }
-
   getBookingsByStatus(status: number): AdminBookingWithVehicle[] {
     return this.bookings.filter(b => b.booking.status === status);
   }
-
 
   getSlotTime(index: number): string {
     return this.SLOT_TIMINGS[index] ?? 'Unknown';
@@ -95,40 +72,6 @@ export class GetAllBookings implements OnInit {
       default: return "";
     }
   }
-
-  // confirmBooking(id: string): void {
-  //   this.actionLoadingId = id;
-  //   this.bookingService.confirm(id).subscribe({
-  //     next: () => {
-  //       this.showToast('Booking confirmed successfully', 'success');
-  //       this.updateStatus(id, 2);
-  //     },
-  //     error: () => {
-  //       this.showToast('Failed to confirm booking', 'danger');
-  //       this.actionLoadingId = null;
-  //     }
-  //   });
-  // }
-
-  // rejectBooking(id: string): void {
-  //   this.actionLoadingId = id;
-  //   this.bookingService.reject(id).subscribe({
-  //     next: () => {
-  //       this.showToast('Booking rejected successfully', 'success');
-  //       this.updateStatus(id, 3);
-  //     },
-  //     error: () => {
-  //       this.showToast('Failed to reject booking', 'danger');
-  //       this.actionLoadingId = null;
-  //     }
-  //   });
-  // }
-
-  // private updateStatus(id: string, status: number): void {
-  //   const booking = this.bookings.find(b => b.id === id);
-  //   if (booking) booking.status = status;
-  //   this.actionLoadingId = null;
-  // }
 
   confirmBooking(id: string): void {
     this.actionLoadingId = id;
@@ -168,8 +111,14 @@ export class GetAllBookings implements OnInit {
     this.actionLoadingId = null;
   }
 
-
-  /* ---------------- TOAST ---------------- */
+  getStatusBadgeClass(status: number): string {
+  switch (status) {
+    case 1: return 'bg-warning text-dark'; // Pending
+    case 2: return 'bg-success';           // Confirmed
+    case 3: return 'bg-danger';            // Rejected
+    default: return 'bg-secondary';
+  }
+}
 
   showToast(message: string, type: 'success' | 'danger'): void {
     this.toastMessage = message;
@@ -183,7 +132,4 @@ export class GetAllBookings implements OnInit {
     });
     toast.show();
   }
-
-
-
 }
